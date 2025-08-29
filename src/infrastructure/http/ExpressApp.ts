@@ -23,7 +23,7 @@ export class ExpressApp{
             origin: [
               `${env.frontend}`,
             ],
-            methods: ["POST","OPTIONS"],
+            methods: ["GET","POST","OPTIONS"],
             credentials: true
           }));
         this.app.use(express.json());
