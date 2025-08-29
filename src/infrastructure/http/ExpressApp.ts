@@ -18,6 +18,7 @@ export class ExpressApp{
     }
     private configure(){
         console.log(env.frontend,"frontend url");
+        console.log("Type of frontend URL:", typeof env.frontend);
         this.app.use(helmet());
         this.app.use(cors({
             origin: [
