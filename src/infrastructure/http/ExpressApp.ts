@@ -5,6 +5,7 @@ import morgan from "morgan"
 import { errorHandler } from "./middleware/errorHandler";
 import { notFound } from "./middleware/notFound";
 import ocrRouter from "./routes/ocr.routes"
+import { env } from "../config/env";
 
 export class ExpressApp{
     public readonly app:Application;
@@ -18,7 +19,12 @@ export class ExpressApp{
     
     private configure(){
         this.app.use(helmet());
-        this.app.use(cors());
+        this.app.use(cors({
+            origin: [
+              `${env.frontend}`,
+            ],
+            credentials: true
+          }));
         this.app.use(express.json());
         this.app.use(morgan("dev"));
     }

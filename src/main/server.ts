@@ -6,5 +6,5 @@ import { logger } from "../infrastructure/config/logger";
 const server = new ExpressApp().app;
 
 server.listen(env.port, () => {
-logger.info(`Server listening on http://localhost:${env.port}`);
+logger.info(`Server listening Port:${env.port}`);
 });
