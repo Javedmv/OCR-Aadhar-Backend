@@ -17,10 +17,6 @@ export class ExpressApp{
         this.handleErrors();
     }
     private configure(){
-        console.log("Raw FRONTEND_URL:", JSON.stringify(env.FRONTEND_URL));
-        console.log("FRONTEND_URL length:", env.FRONTEND_URL?.length);
-        console.log("FRONTEND_URL ends with '/':", env.FRONTEND_URL?.endsWith('/'));
-        
         this.app.use(helmet());
         this.app.use(cors({
             origin: [
