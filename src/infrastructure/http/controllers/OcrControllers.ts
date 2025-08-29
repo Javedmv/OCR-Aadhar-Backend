@@ -17,7 +17,6 @@ export class OcrController {
         return res.status(400).json({ error: "Front image is required" });
       }
 
-      // Run Tesseract OCR
       const frontResult = await this.extractText.execute({
         image: front.buffer,
         langs,
@@ -28,16 +27,21 @@ export class OcrController {
             langs,
           })
         : { text: "" };
-      console.log(frontResult, "--============-------==========-----", backResult);
 
-      // Clean OCR results using Mistral with better error handling
       const cleanedFront = await this.cleanWithMistral(frontResult.text);
       const cleanedBack = await this.cleanWithMistral(backResult.text);
-      console.log(cleanedFront, "----------===================-------------", cleanedBack);
 
-      // Aadhaar parsing
       const structuredData = this.parseAadhaar(cleanedFront, cleanedBack);
-      console.log(structuredData, "Structured Data");
+
+      if (!structuredData.aadhaarNumber) {
+        throw new Error("Aadhaar number not found in OCR" );
+      }
+      if (!structuredData.name) {
+        throw new Error("Name not found in OCR");
+      }
+      if (!structuredData.address) {
+        throw new Error("Address not found in OCR");
+      }
 
       res.json(structuredData);
     } catch (error) {
@@ -196,11 +200,10 @@ export class OcrController {
       return normalized;
     }
   
-    // --- Build structured object ---
     const dob = dobMatch ? dobMatch[0] : null;
     let yob: string | null = null;
     if (dob) {
-      yob = dob.slice(-4); // last 4 digits from DOB
+      yob = dob.slice(-4);
     } else if (yobMatch) {
       yob = yobMatch[0];
     }
