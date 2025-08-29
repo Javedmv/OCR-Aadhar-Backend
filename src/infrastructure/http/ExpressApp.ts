@@ -16,15 +16,14 @@ export class ExpressApp{
         this.routes();
         this.handleErrors();
     }
-    
     private configure(){
+        console.log(env.frontend,"frontend url");
         this.app.use(helmet());
         this.app.use(cors({
             origin: [
               `${env.frontend}`,
             ],
-            methods:["GET", "POST", "PUT", "DELETE", "OPTIONS"],
-            credentials: true
+            methods:"*",
           }));
         this.app.use(express.json());
         this.app.use(morgan("dev"));
@@ -39,5 +38,4 @@ export class ExpressApp{
         this.app.use(errorHandler);
         this.app.use(notFound)
     }
-
 }
