@@ -123,10 +123,13 @@ export class OcrController {
   
     const aadhaarMatch = combined.match(/\b\d{4}\s?\d{4}\s?\d{4}\b/);
     const dobMatch = combined.match(/\b\d{2}\/\d{2}\/\d{4}\b/);
-    const yobMatch = combined.match(/\b(19|20)\d{2}\b/);
     const genderMatch = combined.match(
       /\b(MALE|FEMALE|TRANSGENDER|OTHERS|पुरुष|महिला|ट्रांसजेंडर)\b/i
     );
+  
+    // --- PIN Code Extractor ---
+    const pincodeMatch = backText.match(/\b\d{6}\b/); // Aadhaar PIN codes are 6 digits
+    const pincode = pincodeMatch ? pincodeMatch[0] : null;
   
     // --- Address Extractor ---
     function extractAddress(str: string): string | null {
@@ -144,12 +147,10 @@ export class OcrController {
       if (!address) return null;
   
       address = address.replace(/[^A-Za-z0-9,\-\s]/g, " ");
-  
       address = address
         .split(/\s+/)
         .filter((word) => word.length >= 3 || /^\d+$/.test(word))
         .join(" ");
-  
       address = address
         .replace(/\s*,\s*/g, ", ")
         .replace(/,+/g, ",")
@@ -200,14 +201,6 @@ export class OcrController {
       return normalized;
     }
   
-    const dob = dobMatch ? dobMatch[0] : null;
-    let yob: string | null = null;
-    if (dob) {
-      yob = dob.slice(-4);
-    } else if (yobMatch) {
-      yob = yobMatch[0];
-    }
-  
     return {
       aadhaarNumber: aadhaarMatch
         ? aadhaarMatch[0]
@@ -215,11 +208,12 @@ export class OcrController {
             .replace(/(\d{4})(\d{4})(\d{4})/, "$1 $2 $3")
         : null,
       name: extractName(),
-      dob,
-      yob,
+      dob: dobMatch ? dobMatch[0] : null,
       gender: genderMatch ? normalizeGender(genderMatch[0]) : null,
       address: extractAddress(backText),
+      pincode,
     };
   }
+  
   
 }
