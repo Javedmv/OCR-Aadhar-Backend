@@ -65,7 +65,10 @@ export class OcrController {
               content:
                 "You are a helpful assistant that cleans OCR text from Aadhaar cards. " +
                 "Fix OCR errors, normalize Aadhaar numbers into '1234 5678 9012' format (do not mask), " +
-                "standardize dates into DD/MM/YYYY, and remove any garbage text.",
+                "standardize dates into DD/MM/YYYY, and remove any garbage text. " +
+                "When extracting the address, intelligently correct and expand it based on valid Indian states, districts, cities, and roads. " +
+                "For example, if the OCR text shows a partial or misspelled address, infer and correct it to the closest valid Indian location. " +
+                "Preserve the user’s address meaning while fixing spelling mistakes and filling missing details.",
             },
             { role: "user", content: rawText },
           ],
