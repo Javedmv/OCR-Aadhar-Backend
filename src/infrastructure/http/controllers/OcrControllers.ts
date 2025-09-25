@@ -37,9 +37,9 @@ export class OcrController {
         message,
       };
 
-      if (status === "false") {
-        return res.status(400).json(response);
-      }
+      // if (status === "false") {
+      //   return res.status(400).json(response);
+      // }
 
       return res.status(200).json(response);
     } catch (error) {
