@@ -1,13 +1,9 @@
 import { Router } from "express";
 import { upload } from "../middleware/uploads";
-import { ExtractTextUseCase } from "../../../application/useCase/extractTextUseCase";
-import { TessaeractOcrAdaptor } from "../../ocr/TesseractOcrAdapter";
 import { OcrController } from "../controllers/OcrControllers";
 
 const router = Router();
-const adapter = new TessaeractOcrAdaptor();
-const useCase = new ExtractTextUseCase(adapter);
-const controller = new OcrController(useCase);
+const controller = new OcrController();
 
 router.post("/extract", upload.fields([
     { name: "front", maxCount: 1 },
