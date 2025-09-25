@@ -1,6 +1,7 @@
 import OpenAI from "openai";
+import {env} from "../config/env"
 
-const client = new OpenAI({ apiKey: process.env.OPENAI_API_KEY });
+const client = new OpenAI({ apiKey: env.OPEN_AI_APIKEY });
 
 export async function ocrExtractService(files: any) {
   const front = files.front[0];

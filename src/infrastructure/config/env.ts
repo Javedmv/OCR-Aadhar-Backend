@@ -6,5 +6,6 @@ export const env = {
     port: Number(process.env.PORT ?? 3000),
     HF_API_KEY: process.env.HF_API_KEY,
     MISTRAL_API_KEY: process.env.MISTRAL_API_KEY,
-    FRONTEND_URL: process.env.FRONTEND_URL
+    FRONTEND_URL: process.env.FRONTEND_URL,
+    OPEN_AI_APIKEY: process.env.OPENAI_API_KEY
 };
